@@ -10,33 +10,38 @@ namespace NV.Controllers;
 
 public class CRUDController : ControllerBase
 {
-
-    [HttpGet()]
-    public async Task<IActionResult> datos()
-    {
-        Ser_CRUD algo = new Ser_CRUD();
-        var result = algo.GetAll();
-        await result;
-
-        return Ok(result);
+    internal readonly CountContext _Context = new CountContext();
+    public CRUDController(CountContext context){
+        this._Context=context;
     }
     
-    [HttpGet("[id]")]
-    public async Task<IActionResult> datos(int id)
+
+    [HttpGet()]
+    public async Task<List<Customer>> datos()
     {
         Ser_CRUD algo = new Ser_CRUD();
-        var result = algo.GetAll();
+        var result = algo.GetAll(_Context);
         await result;
 
-        return Ok(result);
+        return result.Result;
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<Customer> datos(int id)
+    {
+        Ser_CRUD algo = new Ser_CRUD();
+        var result = algo.GetCustomer(_Context,id);
+        await result;
+
+        return result.Result;
     }
     [HttpPost]
-    public async Task<IActionResult> Entrega([FromForm]Product product){
+    public async Task<IActionResult> Entrega([FromForm] Customer product){
         Ser_CRUD algo = new Ser_CRUD();
-        var result = algo.PostProduct(product);
+        var result = algo.PostCustomer(_Context,product);
         await result;
 
-        return Ok(result);
+        return Ok(result.Result);
 
     }
 }

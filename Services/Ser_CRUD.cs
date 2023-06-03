@@ -6,25 +6,27 @@ namespace NV.Services;
 
 public class Ser_CRUD
 {
-    internal CountContext _Context = new CountContext();
+    
+  
     public Ser_CRUD() { }
-    public Task<List<Client>> GetAll()
+    public Task<List<Customer>> GetAll(CountContext _Context)
     {
-        return _Context.Clients.ToListAsync();
+        return _Context.Customers.ToListAsync();
     }
-    public Task<List<Product>> GetProducts()
+    public ValueTask<Customer> GetCustomers(CountContext _Context,int id)
     {
-        return _Context.Products.ToListAsync();
+        return _Context.Customers.FindAsync(id);
     }
-    public ValueTask<Product> GetProduct(int Id)
+    public ValueTask<Customer> GetCustomer(CountContext _Context,int Id)
     {
-        var algo = _Context.Products.FindAsync(Id);
+        var algo = _Context.Customers.FindAsync(Id);
         return algo;
     }
-    public Task<int> PostProduct(Product product)
+    public async Task<int> PostCustomer(CountContext _Context,Customer product)
     {
-        _Context.Products.AddAsync(product);
-        var algo = _Context.SaveChangesAsync();
+           await _Context.Customers.AddAsync(product);
+           var algo =_Context.SaveChangesAsync().Result;
+          
         return algo;
     }
 
