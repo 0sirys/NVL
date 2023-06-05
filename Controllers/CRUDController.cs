@@ -42,6 +42,7 @@ public class CRUDController : ControllerBase
         await result;
 
         return Ok(result.Result);
+        Console.WriteLine("algo");
 
     }
 }
