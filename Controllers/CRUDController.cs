@@ -36,12 +36,13 @@ public class CRUDController : ControllerBase
         return result.Result;
     }
     [HttpPost]
-    public async Task Entrega([FromForm] Customer product){
+    public async Task<IActionResult> Entrega([FromForm] Customer product){
         Ser_CRUD algo = new Ser_CRUD();
-        while(true){
+        var result = algo.PostCustomer(_Context,product);
+        await result;
 
-            Console.WriteLine("hola");
-        }
+        return Ok(result.Result);
+
     }
 }
 
