@@ -11,5 +11,7 @@ public partial class SaleLog
 
     public int? Customer { get; set; }
 
+    public DateTime? Date { get; set; }
+
     public virtual Customer? CustomerNavigation { get; set; }
 }

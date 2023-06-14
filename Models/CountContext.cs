@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 #nullable disable
-
 namespace NV.Models;
 
 public partial class CountContext : DbContext
@@ -24,10 +23,10 @@ public partial class CountContext : DbContext
 
     public virtual DbSet<Seller> Sellers { get; set; }
 
-    /*     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-            => optionsBuilder.UseSqlServer("Server=DPC; DataBase=Count; Trusted_Connection=True; TrustServerCertificate=True");
-     */
+  /*   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=DPC; DataBase=Count; Trusted_Connection=True; TrustServerCertificate=True"); */
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
@@ -83,6 +82,10 @@ public partial class CountContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Customer).HasColumnName("customer");
+            entity.Property(e => e.Date)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("_Date");
             entity.Property(e => e.Saledetail).HasColumnName("saledetail");
 
             entity.HasOne(d => d.CustomerNavigation).WithMany(p => p.SaleLogs)
